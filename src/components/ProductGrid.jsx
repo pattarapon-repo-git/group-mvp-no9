@@ -17,8 +17,7 @@ const products = [
 
 const filterTabs = ['All Product', 'Ebook', 'Template', 'Souvenir', 'T-shirt Design'];
 
-const ProductGrid = ({ onAddToCart }) => {
-  const [activeFilter, setActiveFilter] = useState('All Product');
+const ProductGrid = ({ onAddToCart, activeFilter = 'All Product', setActiveFilter }) => {
   const [search, setSearch] = useState('');
 
   const filtered = products.filter(p => {

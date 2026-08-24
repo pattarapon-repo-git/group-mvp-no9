@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CustomOrderModal from './CustomOrderModal';
 
-const Navbar = ({ cartCount }) => {
+const Navbar = ({ cartItems = [], updateQuantity, removeItem }) => {
   // State สำหรับจำลองการล็อกอิน (true = ล็อกอินแล้ว, false = ยังไม่ล็อกอิน)
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeMenu, setActiveMenu] = useState('product');
   const [isCustomOrderModalOpen, setIsCustomOrderModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const menuItems = [
     { id: 'home', label: 'Home', path: '/' },
     { id: 'products', label: 'Products', path: '/#products' },
     { id: 'custom', label: 'Custom Order', path: '/custom-order' },
   ];
+
+  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const cartSubtotal = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
   return (
     <>
@@ -97,17 +101,63 @@ const Navbar = ({ cartCount }) => {
             </svg>
           </label>
 
-          {/* Cart Button */}
-          <button className="btn btn-ghost btn-circle">
-            <div className="indicator">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-              {cartCount > 0 && (
-                <span className="badge badge-sm badge-error indicator-item text-white">{cartCount}</span>
-              )}
+          {/* Cart Dropdown */}
+          <div className="dropdown dropdown-end">
+            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+              <div className="indicator">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                {cartCount > 0 && (
+                  <span className="badge badge-sm badge-error indicator-item text-white">{cartCount}</span>
+                )}
+              </div>
             </div>
-          </button>
+            <div tabIndex={0} className="mt-3 z-[1] card card-compact dropdown-content w-80 bg-base-100 shadow-xl border border-base-200">
+              <div className="card-body">
+                <span className="font-bold text-lg">{cartCount} Items</span>
+                <span className="text-info">Subtotal: ฿{cartSubtotal.toLocaleString()}</span>
+                
+                <div className="max-h-64 overflow-y-auto mt-2 space-y-3">
+                  {cartItems.length === 0 ? (
+                    <p className="text-center text-sm text-base-content/50 py-4">ไม่มีสินค้าในตะกร้า</p>
+                  ) : (
+                    cartItems.map((item) => (
+                      <div key={item.id} className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-base-200 rounded-md flex items-center justify-center text-xl">
+                          {item.tag === 'Ebook' ? '📚' : item.tag === 'Template' ? '📄' : item.tag === 'Souvenir' ? '🎁' : '👕'}
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="text-sm font-semibold line-clamp-1">{item.title}</h4>
+                          <div className="text-xs text-base-content/60">฿{item.price}</div>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <button onClick={() => updateQuantity(item.id, -1)} className="btn btn-xs btn-circle btn-ghost">-</button>
+                          <span className="text-sm w-4 text-center">{item.quantity}</span>
+                          <button onClick={() => updateQuantity(item.id, 1)} className="btn btn-xs btn-circle btn-ghost">+</button>
+                          <button onClick={() => removeItem(item.id)} className="btn btn-xs btn-circle btn-ghost text-error ml-1">✕</button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+
+                <div className="card-actions mt-3">
+                  <button 
+                    className="btn btn-primary btn-block"
+                    disabled={cartItems.length === 0}
+                    onClick={() => {
+                      // Close dropdown via active element trick and navigate
+                      document.activeElement.blur();
+                      navigate('/checkout');
+                    }}
+                  >
+                    View Cart & Checkout
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* Login / Profile Button */}
           {isLoggedIn ? (

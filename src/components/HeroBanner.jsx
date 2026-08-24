@@ -8,7 +8,7 @@ const categories = [
   { label: 'T-shirt Design', subLabel: 'ออกแบบเสื้อ', emoji: '👕' },
 ];
 
-const HeroBanner = () => {
+const HeroBanner = ({ onCategoryClick }) => {
   return (
     <section className="relative w-full overflow-hidden bg-[#120c08] text-white px-4 md:px-8 lg:px-12 py-14 md:py-20 shadow-2xl">
       
@@ -66,6 +66,7 @@ const HeroBanner = () => {
           {categories.map((cat) => (
             <button
               key={cat.label}
+              onClick={() => onCategoryClick && onCategoryClick(cat.label)}
               className="card glass bg-[#241610]/75 hover:bg-[#331f16] border border-[#8a3c1b]/35 hover:border-[#e27d4c]/70 rounded-3xl p-5 lg:p-8 py-10 lg:py-14 shadow-2xl transition-all duration-300 cursor-pointer group hover:-translate-y-1.5 hover:shadow-orange-950/40 items-center justify-center gap-4 lg:gap-5 h-full"
             >
               <span className="text-5xl lg:text-6xl group-hover:scale-110 transition-transform duration-300 drop-shadow-lg">
@@ -85,3 +86,4 @@ const HeroBanner = () => {
 };
 
 export default HeroBanner;
+
