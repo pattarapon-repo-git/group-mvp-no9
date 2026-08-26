@@ -38,7 +38,7 @@ const CustomOrderModal = ({ isOpen, onClose }) => {
 
   return (
     <dialog className={`modal ${isOpen ? 'modal-open' : ''}`} onClose={onClose}>
-      <div className="modal-box p-8 rounded-2xl shadow-2xl relative">
+      <div className="modal-box w-11/12 max-w-2xl p-5 md:p-8 rounded-2xl shadow-2xl relative">
         <button 
           onClick={onClose} 
           className="btn btn-sm btn-circle btn-ghost absolute right-4 top-4"

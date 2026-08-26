@@ -1,9 +1,14 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+html, body {
+  overflow-x: hidden;
+}
+
 * {
   font-family: 'Sarabun', sans-serif;
 }
+
 
 /* Marquee Animation */
 @keyframes marquee {

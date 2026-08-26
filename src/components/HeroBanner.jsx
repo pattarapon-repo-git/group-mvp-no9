@@ -10,38 +10,38 @@ const categories = [
 
 const HeroBanner = ({ onCategoryClick }) => {
   return (
-    <section className="relative w-full overflow-hidden bg-[#120c08] text-white px-4 md:px-8 lg:px-12 py-14 md:py-20 shadow-2xl">
+    <section className="relative w-full overflow-x-hidden bg-[#120c08] text-white px-4 md:px-8 lg:px-12 py-10 md:py-20 shadow-2xl">
       
       {/* Warm Terracotta / Espresso Glow Effects */}
       <div className="absolute bottom-0 left-0 right-0 h-[300px] bg-gradient-to-t from-[#8a3c1b]/40 via-[#5c2711]/20 to-transparent blur-[80px] pointer-events-none" />
       <div className="absolute top-0 right-0 w-[550px] h-[550px] bg-gradient-to-br from-[#a64e24]/30 via-[#5c2711]/15 to-transparent blur-[100px] -translate-y-1/4 translate-x-1/4 rounded-full pointer-events-none" />
       <div className="absolute top-1/2 left-1/4 w-[350px] h-[350px] bg-[#6e3015]/15 blur-[90px] rounded-full pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-[1720px] mx-auto px-4 sm:px-8 md:px-12 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-14">
+      <div className="relative z-10 w-full max-w-[1720px] mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-14">
 
         {/* Left: ข้อความโฆษณา + CTA */}
-        <div className="flex-1 max-w-3xl xl:max-w-4xl lg:-ml-2 xl:-ml-4 text-center lg:text-left">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[72px] xl:text-[80px] font-black text-white leading-[1.05] tracking-tight">
+        <div className="flex-1 w-full max-w-3xl xl:max-w-4xl text-center lg:text-left">
+          <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-[72px] xl:text-[80px] font-black text-white leading-[1.05] tracking-tight">
             Digital <span className="text-[#e27d4c]">products</span>
             <br />
             instant delivery
           </h1>
-          <ul className="mt-8 sm:mt-9 space-y-4 text-gray-200 text-lg sm:text-xl md:text-2xl font-normal inline-block text-left">
-            <li className="flex items-start gap-4">
-              <span className="text-[#e27d4c] font-bold text-2xl md:text-3xl mt-0.5">✓</span>
-              ดิจิทัลไฟล์คุณภาพสูง พร้อมใช้งานทันที
+          <ul className="mt-6 sm:mt-9 space-y-3 text-gray-200 text-sm sm:text-lg md:text-xl font-normal inline-block text-left w-full">
+            <li className="flex items-start gap-3">
+              <span className="text-[#e27d4c] font-bold text-lg md:text-2xl mt-0.5 shrink-0">✓</span>
+              <span>ดิจิทัลไฟล์คุณภาพสูง พร้อมใช้งานทันที</span>
             </li>
-            <li className="flex items-start gap-4">
-              <span className="text-[#e27d4c] font-bold text-2xl md:text-3xl mt-0.5">✓</span>
-              ไม่ต้องรอจัดส่ง ยกระดับงานของคุณได้ตั้งแต่วันนี้
+            <li className="flex items-start gap-3">
+              <span className="text-[#e27d4c] font-bold text-lg md:text-2xl mt-0.5 shrink-0">✓</span>
+              <span>ไม่ต้องรอจัดส่ง ยกระดับงานของคุณได้ตั้งแต่วันนี้</span>
             </li>
-            <li className="flex items-start gap-4">
-              <span className="text-[#e27d4c] font-bold text-2xl md:text-3xl mt-0.5">✓</span>
-              ชำระเงินปุ๊บ รับสิทธิ์ดาวน์โหลดปั๊บ
+            <li className="flex items-start gap-3">
+              <span className="text-[#e27d4c] font-bold text-lg md:text-2xl mt-0.5 shrink-0">✓</span>
+              <span>ชำระเงินปุ๊บ รับสิทธิ์ดาวน์โหลดปั๊บ</span>
             </li>
-            <li className="flex items-start gap-4">
-              <span className="text-[#e27d4c] font-bold text-2xl md:text-3xl mt-0.5">✓</span>
-              นำไปต่อยอดโตไอเดียของคุณได้แบบไม่มีข้อจำกัด
+            <li className="flex items-start gap-3">
+              <span className="text-[#e27d4c] font-bold text-lg md:text-2xl mt-0.5 shrink-0">✓</span>
+              <span>นำไปต่อยอดโตไอเดียของคุณได้แบบไม่มีข้อจำกัด</span>
             </li>
           </ul>
           {/* CTA Button ในแบนเนอร์ */}
