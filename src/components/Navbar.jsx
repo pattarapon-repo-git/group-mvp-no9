@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import CustomOrderModal from './CustomOrderModal';
 
 const Navbar = ({ cartItems = [], updateQuantity, removeItem }) => {
   // State สำหรับจำลองการล็อกอิน (true = ล็อกอินแล้ว, false = ยังไม่ล็อกอิน)
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeMenu, setActiveMenu] = useState('product');
-  const [isCustomOrderModalOpen, setIsCustomOrderModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const menuItems = [
@@ -182,11 +180,6 @@ const Navbar = ({ cartItems = [], updateQuantity, removeItem }) => {
           )}
         </div>
       </div>
-
-      <CustomOrderModal 
-        isOpen={isCustomOrderModalOpen} 
-        onClose={() => setIsCustomOrderModalOpen(false)} 
-      />
     </>
   );
 };
