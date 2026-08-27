@@ -8,7 +8,7 @@ import ContactSection from '../components/ContactSection'
 
 export default function HomePage({ onAddToCart }) {
   const location = useLocation();
-  const [activeFilter, setActiveFilter] = useState('All Product');
+  const [activeFilter, setActiveFilter] = useState('All type');
 
   const handleCategoryClick = (category) => {
     setActiveFilter(category);

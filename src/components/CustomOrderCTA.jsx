@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const CustomOrderCTA = () => {
   return (
-    <div className="w-full px-4 md:px-8 lg:px-12 py-8 bg-gray-50">
+    <div id="custom-order-cta" className="w-full px-4 md:px-8 lg:px-12 py-8 bg-gray-50">
       <div className="w-full">
         {/* Label */}
         <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase mb-3">

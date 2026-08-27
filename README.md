@@ -1,16 +1,55 @@
-# React + Vite
+# Group Project MVP - Sprint 2
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+This is the MVP (Minimum Viable Product) for the E-commerce & Custom Ordering platform, built during Sprint 2.
 
-Currently, two official plugins are available:
+## 🚀 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Framework:** [React 19](https://react.dev/) + [Vite](https://vitejs.dev/)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/) + [DaisyUI](https://daisyui.com/)
+- **Routing:** [React Router DOM](https://reactrouter.com/)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Linting:** [ESLint](https://eslint.org/) (Flat Config)
 
-## React Compiler
+## 📦 Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Home & Product Presentation:** `HomePage`, `HeroBanner`, `ProductGrid`, `ImageMarquee`
+- **Shopping & Checkout:** `ProductsPage`, `CheckoutPage`
+- **Custom Ordering System:** `CustomOrderPage`, `CustomOrderModal`, `CustomOrderCTA`
+- **Authentication:** `SignInPage`, `SignUpPage`
 
-## Expanding the Oxlint configuration
+## 🛠️ Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+### Prerequisites
+Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
+
+### 1. Install Dependencies
+Run the following command to install all required packages:
+```bash
+npm install
+```
+
+### 2. Run Development Server
+Start the Vite development server with Hot Module Replacement (HMR):
+```bash
+npm run dev
+```
+The app will be available at `http://localhost:5173`.
+
+### 3. Lint the Code
+Check for syntax errors or unused variables using ESLint:
+```bash
+npm run lint
+```
+
+### 4. Build for Production
+Bundle the application for production:
+```bash
+npm run build
+```
+You can preview the built production app locally using:
+```bash
+npm run preview
+```
+
+## 📝 Configuration Updates
+- We have fully migrated from `oxlint` to **ESLint**. The configuration can be found in `eslint.config.js`.

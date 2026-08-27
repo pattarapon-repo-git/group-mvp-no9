@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-base-200 text-base-content mt-10 py-8 px-4">
+    <footer id="contact" className="bg-base-200 text-base-content mt-10 py-8 px-4">
       <div className="max-w-4xl mx-auto flex flex-col items-center gap-5 text-center">
 
         {/* Logo + Brand */}

@@ -12,7 +12,8 @@ const Navbar = ({ cartItems = [], updateQuantity, removeItem }) => {
   const menuItems = [
     { id: 'home', label: 'Home', path: '/' },
     { id: 'products', label: 'Products', path: '/#products' },
-    { id: 'custom', label: 'Custom Order', path: '/custom-order' },
+    { id: 'contact', label: 'Contact', path: '/#contact' },
+    { id: 'custom-order', label: 'Custom Order', path: '/#custom-order-cta' },
   ];
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);

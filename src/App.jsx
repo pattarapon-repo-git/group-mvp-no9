@@ -6,6 +6,8 @@ import Footer from './components/Footer';
 // Pages
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
+import AllProductsPage from './pages/AllProductsPage';
+import ProductDetailPage from './pages/ProductDetailPage';
 import CustomOrderPage from './pages/CustomOrderPage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
@@ -60,6 +62,8 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage onAddToCart={handleAddToCart} />} />
             <Route path="/products" element={<ProductsPage onAddToCart={handleAddToCart} />} />
+            <Route path="/all-products" element={<AllProductsPage onAddToCart={handleAddToCart} />} />
+            <Route path="/product/:id" element={<ProductDetailPage onAddToCart={handleAddToCart} />} />
             <Route path="/custom-order" element={<CustomOrderPage />} />
             <Route path="/signin" element={<SignInPage />} />
             <Route path="/signup" element={<SignUpPage />} />
