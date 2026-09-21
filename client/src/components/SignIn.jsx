@@ -1,9 +1,30 @@
 import { BookOpen } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const SignIn = () => {
   const [rememberMe, setRememberMe] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      const user = await login(email, password);
+      if (user.role === "admin") {
+        navigate("/admin/products");
+      } else {
+        navigate("/");
+      }
+    } catch (err) {
+      setError(err.message || "Failed to login");
+    }
+  };
   return (
     <div
       className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col justify-center py-12 sm:px-6 lg:px-8"
@@ -30,7 +51,9 @@ const SignIn = () => {
             </Link>
           </p>
 
-          <form className="w-full space-y-4" action="#" method="POST">
+          {error && <div className="text-red-500 mb-4">{error}</div>}
+
+          <form className="w-full space-y-4" onSubmit={handleSubmit}>
             <label className="form-control w-full ">
               <div className="label">
                 <span className="label-text font-semibold">Email address</span>
@@ -42,6 +65,8 @@ const SignIn = () => {
                 autoComplete="email"
                 required
                 placeholder="jane@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="input input-bordered input-primary w-full w-full border-2 border-gray-300 rounded-lg px-4 py-2"
               />
             </label>
@@ -57,6 +82,8 @@ const SignIn = () => {
                 autoComplete="current-password"
                 required
                 placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="input input-bordered input-primary w-full border-2 border-gray-300 rounded-lg px-4 py-2"
               />
             </label>

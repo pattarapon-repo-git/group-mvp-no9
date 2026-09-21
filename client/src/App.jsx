@@ -12,6 +12,8 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import AdminProductsPage from "./pages/AdminProductsPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import { CartProvider } from "./context/CartContext/CartProvider";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +30,14 @@ const router = createBrowserRouter([
       { path: "signup", element: <SignUpPage /> },
       { path: "checkout", element: <CheckoutPage /> },
       { path: "profile", element: <UserProfilePage /> },
-      { path: "admin/products", element: <AdminProductsPage /> },
+      { 
+        path: "admin/products", 
+        element: (
+          <ProtectedRoute requireAdmin={true}>
+            <AdminProductsPage />
+          </ProtectedRoute>
+        ) 
+      },
       { path: "*", element: <NotFoundPage /> },
     ],
   },
@@ -36,9 +45,11 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <CartProvider>
-      <RouterProvider router={router} />
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <RouterProvider router={router} />
+      </CartProvider>
+    </AuthProvider>
   );
 }
 

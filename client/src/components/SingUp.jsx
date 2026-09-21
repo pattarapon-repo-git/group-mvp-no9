@@ -1,7 +1,50 @@
 import { BookOpen } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const SignUp = () => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    username: "",
+  });
+  const [error, setError] = useState("");
+  const { register } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (formData.password !== formData.confirmPassword) {
+      return setError("Passwords do not match");
+    }
+
+    try {
+      // Create a username from email if not provided (or just pass email as username to simplify)
+      const username = formData.email.split("@")[0] + Math.floor(Math.random() * 1000);
+      
+      await register({
+        firstname: formData.firstName,
+        lastname: formData.lastName,
+        username,
+        email: formData.email,
+        password: formData.password,
+      });
+      navigate("/");
+    } catch (err) {
+      setError(err.message || "Failed to register");
+    }
+  };
+
   return (
     <div
       className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col justify-center py-12 sm:px-6 lg:px-8"
@@ -28,7 +71,9 @@ const SignUp = () => {
             </Link>
           </p>
 
-          <form className="w-full space-y-4" action="#" method="POST">
+          {error && <div className="text-red-500 mb-4">{error}</div>}
+
+          <form className="w-full space-y-4" onSubmit={handleSubmit}>
             <div className="grid grid-cols-2 gap-4">
               <label className="form-control w-full">
                 <div className="label">
@@ -40,6 +85,8 @@ const SignUp = () => {
                   type="text"
                   required
                   placeholder="Jane"
+                  value={formData.firstName}
+                  onChange={handleChange}
                   className="input input-bordered input-primary w-full border-2 border-gray-300 rounded-lg px-4 py-2"
                 />
               </label>
@@ -54,6 +101,8 @@ const SignUp = () => {
                   type="text"
                   required
                   placeholder="Doe"
+                  value={formData.lastName}
+                  onChange={handleChange}
                   className="input input-bordered input-primary w-full border-2 border-gray-300 rounded-lg px-4 py-2"
                 />
               </label>
@@ -70,6 +119,8 @@ const SignUp = () => {
                 autoComplete="email"
                 required
                 placeholder="jane@example.com"
+                value={formData.email}
+                onChange={handleChange}
                 className="input input-bordered input-primary w-full border-2 border-gray-300 rounded-lg px-4 py-2"
               />
             </label>
@@ -85,6 +136,8 @@ const SignUp = () => {
                 autoComplete="new-password"
                 required
                 placeholder="••••••••"
+                value={formData.password}
+                onChange={handleChange}
                 className="input input-bordered input-primary w-full border-2 border-gray-300 rounded-lg px-4 py-2"
               />
             </label>
@@ -102,6 +155,8 @@ const SignUp = () => {
                 autoComplete="new-password"
                 required
                 placeholder="••••••••"
+                value={formData.confirmPassword}
+                onChange={handleChange}
                 className="input input-bordered input-primary w-full border-2 border-gray-300 rounded-lg px-4 py-2"
               />
             </label>

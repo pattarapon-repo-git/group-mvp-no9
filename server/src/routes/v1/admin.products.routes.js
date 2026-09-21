@@ -1,7 +1,11 @@
 import { Router } from "express";
 import { Product } from "../../models/product.model.js";
+import { protect, admin } from "../../middlewares/auth.middleware.js";
 
 export const router = Router();
+
+// Protect all admin routes
+router.use(protect, admin);
 
 // POST create new product
 router.post("/", async (req, res, next) => {

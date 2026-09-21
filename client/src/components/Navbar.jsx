@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext/CartContext';
+import { AuthContext } from '../context/AuthContext';
 
 
 const Navbar = ({ cartItems: propCartItems, updateQuantity: propUpdateQuantity, removeItem: propRemoveItem }) => {
@@ -10,10 +11,13 @@ const Navbar = ({ cartItems: propCartItems, updateQuantity: propUpdateQuantity, 
   const updateQuantity = propUpdateQuantity || cartContext.updateQuantity;
   const removeItem = propRemoveItem || cartContext.removeItem;
 
-  // State สำหรับจำลองการล็อกอิน (true = ล็อกอินแล้ว, false = ยังไม่ล็อกอิน)
-  // เปิด true ไว้ก่อนเพื่อให้คุณเห็นเมนู User/Admin ในโปรไฟล์
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const { user, logout } = useContext(AuthContext);
   const [activeMenu, setActiveMenu] = useState('product');
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   const menuItems = [
     { id: 'home', label: 'Home', path: '/' },
@@ -167,17 +171,22 @@ const Navbar = ({ cartItems: propCartItems, updateQuantity: propUpdateQuantity, 
           </div>
 
           {/* Login / Profile Button */}
-          {isLoggedIn ? (
+          {user ? (
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar placeholder">
                 <div className="bg-neutral text-neutral-content rounded-full w-10">
-                  <span className="text-xs">UI</span>
+                  <span className="text-xs uppercase">{user.firstname ? user.firstname.charAt(0) : 'U'}</span>
                 </div>
               </div>
               <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                <li className="menu-title text-center text-xs opacity-50 border-b border-base-200 pb-2 mb-2">
+                  {user.firstname} {user.lastname} {user.role === 'admin' && '(Admin)'}
+                </li>
                 <li><Link to="/profile">User Profile</Link></li>
-                <li><Link to="/admin/products">Admin Dashboard</Link></li>
-                <li><a onClick={() => setIsLoggedIn(false)} className="text-error">Logout</a></li>
+                {user.role === 'admin' && (
+                  <li><Link to="/admin/products" className="text-primary font-medium">Admin Dashboard</Link></li>
+                )}
+                <li><button onClick={handleLogout} className="text-error">Logout</button></li>
               </ul>
             </div>
           ) : (
