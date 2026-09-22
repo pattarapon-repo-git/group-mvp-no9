@@ -93,13 +93,12 @@ export default function ProductDetailPage() {
                 <button
                   key={idx}
                   onClick={() => setSelectedImage(idx)}
-                  className={`w-16 h-16 rounded-xl bg-base-200 flex items-center justify-center overflow-hidden transition-all duration-150 border-2 ${
-                    selectedImage === idx
+                  className={`w-16 h-16 rounded-xl bg-base-200 flex items-center justify-center overflow-hidden transition-all duration-150 border-2 ${selectedImage === idx
                       ? "border-primary scale-105 shadow-md"
                       : "border-transparent hover:border-base-300"
-                  }`}
+                    }`}
                 >
-                  <img src={img} alt="thumbnail" className="w-full h-full object-cover" onError={(e) => { e.target.src = '/images/products/product-1.jpg' }}/>
+                  <img src={img} alt="thumbnail" className="w-full h-full object-cover" onError={(e) => { e.target.src = '/images/products/product-1.jpg' }} />
                 </button>
               ))}
             </div>
@@ -197,46 +196,53 @@ export default function ProductDetailPage() {
       </div>
 
       {/* ---- Spec Table ---- */}
-      {product.details && (
+      {product.details && Object.entries(product.details).filter(([key, value]) => key !== "_id" && value !== null && value !== undefined && String(value).trim() !== "").length > 0 && (
         <div className="mt-10 border-t border-base-200 pt-8">
           <h2 className="text-lg font-bold text-base-content mb-4">
             รายละเอียดสินค้า
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-0 bg-base-200/40 rounded-2xl p-6">
-            {Object.entries(product.details).map(([key, value]) => {
-              const labelMap = {
-                pages: "จำนวนหน้า",
-                slides: "จำนวนสไลด์",
-                quantity: "จำนวน",
-                format: "รูปแบบไฟล์",
-                language: "ภาษา",
-                suitableFor: "เหมาะสำหรับ",
-                license: "สิทธิ์การใช้งาน",
-                software: "โปรแกรมที่รองรับ",
-                editability: "การปรับแต่ง",
-                colorScheme: "ชุดสี",
-                resolution: "ความละเอียด",
-                printMethod: "วิธีพิมพ์/สกรีน",
-                colors: "จำนวนสี",
-                platform: "แพลตฟอร์ม",
-                usage: "การใช้งาน",
-                lastUpdated: "อัปเดตล่าสุด",
-              };
-              const label = labelMap[key] ?? key;
-              return (
-                <div
-                  key={key}
-                  className="flex items-start gap-3 py-3 border-b border-base-200/60 last:border-none"
-                >
-                  <span className="text-xs text-base-content/50 w-36 shrink-0 pt-0.5">
-                    {label}
-                  </span>
-                  <span className="text-sm text-base-content font-medium">
-                    {value}
-                  </span>
-                </div>
-              );
-            })}
+            {Object.entries(product.details)
+              .filter(([key, value]) => key !== "_id" && value !== null && value !== undefined && String(value).trim() !== "")
+              .map(([originalKey, value]) => {
+                let key = originalKey;
+                // ถ้ามี key เป็น quantity ให้เปลี่ยนไปใช้ pages หรือ slides แทนตามประเภทสินค้า
+                if (key === "quantity") {
+                  key = product.tag === "Template" ? "slides" : "pages";
+                }
+
+                const labelMap = {
+                  pages: "จำนวนหน้า",
+                  slides: "จำนวนสไลด์",
+                  format: "รูปแบบไฟล์",
+                  language: "ภาษา",
+                  suitableFor: "เหมาะสำหรับ",
+                  license: "สิทธิ์การใช้งาน",
+                  software: "โปรแกรมที่รองรับ",
+                  editability: "การปรับแต่ง",
+                  colorScheme: "ชุดสี",
+                  resolution: "ความละเอียด",
+                  printMethod: "วิธีพิมพ์/สกรีน",
+                  colors: "จำนวนสี",
+                  platform: "แพลตฟอร์ม",
+                  usage: "การใช้งาน",
+                  lastUpdated: "อัปเดตล่าสุด",
+                };
+                const label = labelMap[key] ?? key;
+                return (
+                  <div
+                    key={originalKey}
+                    className="flex items-start gap-3 py-3 border-b border-base-200/60 last:border-none"
+                  >
+                    <span className="text-xs text-base-content/50 w-36 shrink-0 pt-0.5">
+                      {label}
+                    </span>
+                    <span className="text-sm text-base-content font-medium">
+                      {value}
+                    </span>
+                  </div>
+                );
+              })}
           </div>
         </div>
       )}

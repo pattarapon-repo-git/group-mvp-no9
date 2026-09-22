@@ -1,7 +1,7 @@
 import { BookOpen } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext/AuthContext";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -29,13 +29,10 @@ const SignUp = () => {
     }
 
     try {
-      // Create a username from email if not provided (or just pass email as username to simplify)
-      const username = formData.email.split("@")[0] + Math.floor(Math.random() * 1000);
-      
       await register({
         firstname: formData.firstName,
         lastname: formData.lastName,
-        username,
+        username: formData.username,
         email: formData.email,
         password: formData.password,
       });
@@ -120,6 +117,22 @@ const SignUp = () => {
                 required
                 placeholder="jane@example.com"
                 value={formData.email}
+                onChange={handleChange}
+                className="input input-bordered input-primary w-full border-2 border-gray-300 rounded-lg px-4 py-2"
+              />
+            </label>
+
+            <label className="form-control w-full">
+              <div className="label">
+                <span className="label-text font-semibold">Username</span>
+              </div>
+              <input
+                id="username"
+                name="username"
+                type="text"
+                required
+                placeholder="janedoe"
+                value={formData.username}
                 onChange={handleChange}
                 className="input input-bordered input-primary w-full border-2 border-gray-300 rounded-lg px-4 py-2"
               />

@@ -12,7 +12,7 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import AdminProductsPage from "./pages/AdminProductsPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import { CartProvider } from "./context/CartContext/CartProvider";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./context/AuthContext/AuthProvider";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter([

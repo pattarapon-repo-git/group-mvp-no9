@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext/CartContext';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContext/AuthContext';
 
 
 const Navbar = ({ cartItems: propCartItems, updateQuantity: propUpdateQuantity, removeItem: propRemoveItem }) => {

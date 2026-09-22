@@ -1,7 +1,7 @@
 import { BookOpen } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext/AuthContext";
 
 const SignIn = () => {
   const [rememberMe, setRememberMe] = useState(false);
