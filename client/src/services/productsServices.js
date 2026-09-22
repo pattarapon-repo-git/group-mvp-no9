@@ -8,3 +8,7 @@ export const getProducts = (filters = {}) => {
   const url = queryString ? `${PRODUCTS_PATH}?${queryString}` : PRODUCTS_PATH;
   return apiClient.get(url);
 };
+
+export const getProductById = (id) => {
+  return apiClient.get(`${PRODUCTS_PATH}/${id}`);
+};

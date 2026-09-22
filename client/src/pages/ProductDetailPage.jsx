@@ -1,13 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { products, tagEmoji } from "../data/products";
+
+import { getProductById } from "../services/productsServices";
 import { useCart } from "../context/CartContext/CartContext";
 
 export default function ProductDetailPage() {
   const { handleAddToCart } = useCart();
   const { id } = useParams();
-  const product = products.find((p) => p.id === Number(id));
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const data = await getProductById(id);
+        setProduct(data);
+      } catch (error) {
+        console.error("Failed to fetch product:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [id]);
+
+  if (loading) {
+    return <div className="text-center py-32 text-base-content/50">กำลังโหลดข้อมูลสินค้า...</div>;
+  }
 
   if (!product) {
     return (
@@ -21,7 +41,13 @@ export default function ProductDetailPage() {
     );
   }
 
-  const images = product.images ?? [tagEmoji(product.tag)];
+  // Determine images to show
+  let imageList = [];
+  if (product.img_url && product.img_url.length > 0) {
+    imageList = Array.isArray(product.img_url) ? product.img_url : [product.img_url];
+  } else {
+    imageList = ['/images/products/product-1.jpg'];
+  }
 
   return (
     <div className="w-full px-4 md:px-8 lg:px-12 py-10 max-w-5xl mx-auto">
@@ -53,26 +79,27 @@ export default function ProductDetailPage() {
           {/* Main image */}
           <div className="bg-base-200 rounded-2xl flex items-center justify-center overflow-hidden aspect-square shadow-inner select-none transition-all duration-200">
             <img
-              src={`/images/products/product-${product.id}.jpg`}
+              src={imageList[selectedImage] || imageList[0]}
               alt={product.name}
               className="w-full h-full object-cover"
+              onError={(e) => { e.target.src = '/images/products/product-1.jpg' }}
             />
           </div>
 
           {/* Thumbnail strip */}
-          {images.length > 1 && (
+          {imageList.length > 1 && (
             <div className="flex gap-2 flex-wrap">
-              {images.map((img, idx) => (
+              {imageList.map((img, idx) => (
                 <button
                   key={idx}
                   onClick={() => setSelectedImage(idx)}
-                  className={`w-16 h-16 rounded-xl bg-base-200 flex items-center justify-center text-3xl transition-all duration-150 border-2 ${
+                  className={`w-16 h-16 rounded-xl bg-base-200 flex items-center justify-center overflow-hidden transition-all duration-150 border-2 ${
                     selectedImage === idx
                       ? "border-primary scale-105 shadow-md"
                       : "border-transparent hover:border-base-300"
                   }`}
                 >
-                  {img}
+                  <img src={img} alt="thumbnail" className="w-full h-full object-cover" onError={(e) => { e.target.src = '/images/products/product-1.jpg' }}/>
                 </button>
               ))}
             </div>
@@ -80,8 +107,7 @@ export default function ProductDetailPage() {
 
           {/* Image count badge */}
           <p className="text-xs text-base-content/40">
-            รูปภาพที่ {selectedImage + 1} / {images.length} —
-            รูปภาพจริงจะอัปเดตภายหลัง
+            รูปภาพที่ {selectedImage + 1} / {imageList.length}
           </p>
         </div>
 
@@ -140,7 +166,7 @@ export default function ProductDetailPage() {
               ⚡ รับทันทีหลังชำระ
             </span>
             <span className="badge badge-outline badge-sm gap-1">
-              🖼️ {images.length} รูปภาพ
+              🖼️ {imageList.length} รูปภาพ
             </span>
           </div>
 
