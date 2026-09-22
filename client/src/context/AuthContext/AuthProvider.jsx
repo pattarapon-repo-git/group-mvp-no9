@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import * as authService from "../../services/authServices";
 import { AuthContext } from "./AuthContext";
 
@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     if (storedUser) {
       try {
         setUser(JSON.parse(storedUser));
-      } catch (e) {
+      } catch (error) {
         localStorage.removeItem("user");
       }
     }
