@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const userData = await authService.login({ email, password });
-    if (userData && userData.token) {
+    if (userData && userData._id) {
       setUser(userData);
       localStorage.setItem("user", JSON.stringify(userData));
     }
@@ -31,14 +31,19 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     const newUser = await authService.register(userData);
-    if (newUser && newUser.token) {
+    if (newUser && newUser._id) {
       setUser(newUser);
       localStorage.setItem("user", JSON.stringify(newUser));
     }
     return newUser;
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await authService.logout();
+    } catch (error) {
+      console.error("Logout error", error);
+    }
     setUser(null);
     localStorage.removeItem("user");
   };

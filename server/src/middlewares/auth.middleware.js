@@ -4,13 +4,10 @@ import { User } from "../models/user.model.js";
 export const protect = async (req, res, next) => {
   let token;
 
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
+  if (req.cookies && req.cookies.token) {
     try {
-      // Get token from header
-      token = req.headers.authorization.split(" ")[1];
+      // Get token from cookie
+      token = req.cookies.token;
 
       // Verify token
       const decoded = jwt.verify(

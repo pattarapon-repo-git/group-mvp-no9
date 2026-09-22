@@ -27,13 +27,19 @@ export const register = async (req, res) => {
     });
 
     if (user) {
+      const token = generateToken(user._id, user.role);
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      });
       res.status(201).json({
         _id: user._id,
         firstname: user.firstname,
         lastname: user.lastname,
         email: user.email,
         role: user.role,
-        token: generateToken(user._id, user.role),
       });
     } else {
       res.status(400).json({ message: "Invalid user data" });
@@ -53,13 +59,19 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && (await user.comparePassword(password))) {
+      const token = generateToken(user._id, user.role);
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      });
       res.json({
         _id: user._id,
         firstname: user.firstname,
         lastname: user.lastname,
         email: user.email,
         role: user.role,
-        token: generateToken(user._id, user.role),
       });
     } else {
       res.status(401).json({ message: "Invalid email or password" });
@@ -74,4 +86,14 @@ const generateToken = (id, role) => {
   return jwt.sign({ id, role }, process.env.JWT_SECRET || 'supersecretkey123', {
     expiresIn: "30d",
   });
+};
+
+// @desc    Logout user / clear cookie
+// @route   POST /api/v1/auth/logout
+export const logout = (req, res) => {
+  res.cookie("token", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: "Logged out successfully" });
 };
